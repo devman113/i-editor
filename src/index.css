@@ -1,0 +1,70 @@
+body {
+  margin: 0;
+  padding: 0;
+}
+
+/* bootstrap */
+
+input.form-control {
+  box-shadow: none !important;
+  /* border-color: #ced4da !important; */
+  /* border-radius: 0; */
+  /* padding: .2rem .5rem; */
+}
+
+button {
+  outline: none !important;
+}
+
+/* loading spinner */
+
+@keyframes spinner {
+  to {transform: rotate(360deg);}
+}
+
+.spinner {
+  position: relative;
+  pointer-events: none;
+}
+
+.spinner::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;  
+}
+
+.spinner:after {
+  content: '';
+  box-sizing: border-box;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 24px;
+  height: 24px;
+  margin-top: -12px;
+  margin-left: -12px;
+  border-radius: 50%;
+  border: 1px solid #ccc;
+  border-top-color: #333;
+  animation: spinner .8s linear infinite;
+}
+
+/* select */
+
+.Select-control {
+  border-radius: 0;
+  box-shadow: none !important;
+  border-color: #ced4da !important;
+}
+.Select-menu-outer {
+  border-radius: 0;
+}
+
+/* slider */
+
+.rc-slider-tooltip {
+  z-index: 1;
+}
