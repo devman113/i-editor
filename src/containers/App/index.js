@@ -17,10 +17,11 @@ class App extends Component {
 
     const canvas = new fabric.Canvas('canvas', { backgroundColor: 'white', width: 1000, height: 750 });
     canvas.renderAll();
-    canvas.on('object:moving', this.onObjectMoving);
 
     this.props.setCanvas(canvas, this.container);
-    this.props.resizeStage();
+    setTimeout(() => {
+      this.props.resizeStage();
+    });
   }
 
   onKeyDown = event => {
@@ -32,15 +33,6 @@ class App extends Component {
       });
       canvas.discardActiveObject();
     }
-  };
-
-  onObjectMoving = event => {
-    // const obj = event.target;
-    // if (obj.get('type') === 'circle' && obj.line) {
-    //   const i = obj.line_i;
-    //   obj.line.set({ [`x${i}`]: obj.left, [`y${i}`]: obj.top });
-    //   this.props.canvas.renderAll();
-    // }
   };
 
   render() {
@@ -63,8 +55,10 @@ class App extends Component {
         </Helmet>
 
         <Header />
+
         <main>
           <ToolBar />
+
           <div
             className="stage-container"
             ref={ref => {
@@ -73,6 +67,7 @@ class App extends Component {
           >
             <canvas id="canvas" />
           </div>
+
           {canvas && <PropertyPanel />}
         </main>
       </Wrapper>

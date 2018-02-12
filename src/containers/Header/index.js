@@ -1,5 +1,4 @@
 import React from 'react';
-import { connect } from 'react-redux';
 import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 import faFolderOpen from '@fortawesome/fontawesome-free-regular/faFolderOpen';
 import faSave from '@fortawesome/fontawesome-free-regular/faSave';
@@ -14,10 +13,8 @@ class Header extends React.Component {
   openDialog1 = () => this.setState({ isDialog1: true });
   closeDialog1 = () => this.setState({ isDialog1: false });
 
-  openDialog2 = () => this.setState({ isDialog2: true, filename: '' });
+  openDialog2 = () => this.setState({ isDialog2: true });
   closeDialog2 = () => this.setState({ isDialog2: false });
-
-  onChangeName = e => this.setState({ filename: e.target.value });
 
   render() {
     return (
@@ -43,9 +40,4 @@ class Header extends React.Component {
   }
 }
 
-export default connect(
-  state => ({
-    canvas: state.stage.canvas
-  }),
-  {}
-)(Header);
+export default Header;

@@ -6,16 +6,17 @@ const initialState = {
   stageW: 1000,
   stageH: 750,
 
+  selectedTool: null,
+
   attributes: {
+    line: {
+      stroke: '#000000',
+      strokeWidth: 10
+    },
     textbox: {
       fontFamily: 'Abril Fatface',
       fontSize: 30,
       fill: '#000000'
-    },
-    line: {
-      fill: '#000000',
-      strokeWidth: 10,
-      stroke: '#000000'
     }
   }
 };

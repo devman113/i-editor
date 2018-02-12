@@ -7,13 +7,18 @@ export default styled(Modal)`
     justify-content: center;
     align-items: center;
     height: 100%;
-    margin: auto;
+    margin: auto !important;
 
     .modal-content {
       width: auto;
       background-color: transparent;
       color: #fff;
       border: none;
+      text-align: center;
+
+      .progress {
+        width: 300px;
+      }
     }
   }
 

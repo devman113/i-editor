@@ -4,9 +4,7 @@ import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 import faPencilAlt from '@fortawesome/fontawesome-free-solid/faPencilAlt';
 import faFont from '@fortawesome/fontawesome-free-solid/faFont';
 
-import { selectTool } from 'redux/stage';
-import LinePanel from './LinePanel';
-import TextPanel from './TextPanel';
+import { resizeStage, selectTool } from 'redux/stage';
 import Wrapper from './Wrapper';
 
 const TOOLS = [
@@ -24,20 +22,7 @@ const TOOLS = [
 
 class ToolBar extends React.PureComponent {
   onSelectTool = toolName => {
-    this.props.selectTool(toolName !== this.props.selectedTool ? toolName : '');
-  };
-
-  renderPanel = () => {
-    switch (this.props.selectedTool) {
-      case 'line':
-        return <LinePanel />;
-
-      case 'textbox':
-        return <TextPanel />;
-
-      default:
-        return '';
-    }
+    this.props.selectTool(toolName !== this.props.selectedTool ? toolName : null);
   };
 
   render() {
@@ -54,7 +39,6 @@ class ToolBar extends React.PureComponent {
             </div>
           ))}
         </div>
-        <div className="tool-panel">{this.renderPanel()}</div>
       </Wrapper>
     );
   }
@@ -65,6 +49,7 @@ export default connect(
     selectedTool: state.stage.selectedTool
   }),
   {
+    resizeStage,
     selectTool
   }
 )(ToolBar);

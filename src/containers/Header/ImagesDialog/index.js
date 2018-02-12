@@ -17,7 +17,7 @@ class ImagesDialog extends React.Component {
 
     return axios.get(url).then(
       response => {
-        const images = response.data.map(file => ({ url: `${url}${file}` }));
+        const images = response.data.map(file => ({ url: `./images/${file}` }));
         this.setState({ images }, () => {
           setTimeout(() => this.loadImage(0));
         });
@@ -29,13 +29,13 @@ class ImagesDialog extends React.Component {
   }
 
   loadImage = index => {
-    const { images } = this.state;
+    let images = this.state.images;
     if (index < images.length) {
       const image = images[index];
       image.ref.onload = () => {
-        const iamges1 = images.slice(0);
-        iamges1[index] = { ...image, isLoaded: true };
-        this.setState({ images: iamges1 });
+        images = images.slice(0);
+        images[index] = { ...image, isLoaded: true };
+        this.setState({ images });
         this.loadImage(index + 1);
       };
       image.ref.src = image.url;

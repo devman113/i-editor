@@ -1,15 +1,10 @@
 <?php
-    header("Access-Control-Allow-Origin: *");
+  header("Access-Control-Allow-Origin: *");
 
-  if (isset($_POST['image']) && isset($_POST['filename'])) {
-      saveImage($_POST['image'], $_POST['filename']);
+  foreach ($_FILES as $key => $file) {
+    $uploadfile = basename($file['name']);
+    move_uploaded_file($file['tmp_name'], $uploadfile);
   }
 
   echo "ok";
-
-  function saveImage($image, $filename) {
-      $ifp = fopen($filename, 'wb');
-      fwrite($ifp, base64_decode($image));
-      fclose($ifp);
-  }
 ?>

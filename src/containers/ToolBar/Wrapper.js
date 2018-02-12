@@ -7,6 +7,7 @@ export default styled.nav`
 
   .tool-bar {
     width: 55px;
+    max-width: 55px;
 
     .menu-item {
       display: inline-flex;

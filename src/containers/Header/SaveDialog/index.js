@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { ModalBody, Label, Input, Button } from 'reactstrap';
+import { ModalBody, Label, Input, Button, Progress } from 'reactstrap';
 import axios from 'axios';
 
 import Wrapper from './Wrapper';
@@ -18,37 +18,44 @@ class ImagesDialog extends React.Component {
       filename = `${filename}.png`;
     }
 
-    this.setState({ saving: true });
-
-    let image = canvas.toDataURL('png');
-    image = image.replace('data:image/png;base64,', '');
-
+    const image = canvas.toDataURL('png');
+    const arr = image.split(',');
+    const mime = arr[0].match(/:(.*?);/)[1];
+    const bstr = atob(arr[1]);
+    let n = bstr.length;
+    const u8arr = new Uint8Array(n);
+    while (n--) {
+      u8arr[n] = bstr.charCodeAt(n);
+    }
     const formData = new FormData();
-    formData.append('image', image);
-    formData.append('filename', filename);
+    formData.append(filename, new File([u8arr], filename, { type: mime }));
 
     let url = `./save-images/`;
     if (process.env.NODE_ENV !== 'production') {
-      url = `http://localhost/dev/save-images/`;
+      url = `http://localhost/dev/save-images1/`;
     }
-    axios.post(url, formData).then(
-      response => {
-        onClose();
-      },
-      error => {
-        console.log(error);
-        onClose();
-      }
-    );
+    axios
+      .post(url, formData, progress => {
+        this.setState({ label: 'Uploading...', progress: Math.floor(progress.loaded / progress.total * 100) });
+      })
+      .then(
+        response => {
+          onClose();
+        },
+        error => {
+          console.log(error);
+          onClose();
+        }
+      );
   };
 
   render() {
     const { onClose } = this.props;
-    const { saving, filename } = this.state;
+    const { progress, label, filename } = this.state;
 
     return (
-      <Wrapper isOpen toggle={!saving ? onClose : null} className={saving ? 'saving' : ''}>
-        {!saving ? (
+      <Wrapper isOpen toggle={!progress ? onClose : null} className={progress ? 'saving' : ''}>
+        {!progress ? (
           <ModalBody>
             <div>
               <Label>Please enter file name</Label>
@@ -75,7 +82,12 @@ class ImagesDialog extends React.Component {
             </div>
           </ModalBody>
         ) : (
-          <div>Saving...</div>
+          <div>
+            <Progress animated value={progress}>
+              {progress}%
+            </Progress>
+            {label && <div>{label}</div>}
+          </div>
         )}
       </Wrapper>
     );
